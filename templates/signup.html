@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Signup
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <div class="card mx-auto" style="max-width: 400px;">
+            <form class="card-body" method="POST" action="{{ url_for('signup') }}">
+                <h5 class="card-title text-center mb-4">Sign Up as Merchant</h5>
+                <div class="mb-3">
+                    <label for="fullname" class="form-label">Full Name</label>
+                    <input type="text" required="required" class="form-control" name="fullname" placeholder="Enter your full name" autofocus>
+                </div>
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" required="required" class="form-control" name="username" placeholder="Choose a username">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" required="required" class="form-control" name="password" placeholder="Enter your password">
+                </div>
+                <div class="mb-3">
+                    <label for="repassword" class="form-label">Confirm Password</label>
+                    <input type="password" required="required" class="form-control" name="repassword" placeholder="Confirm your password">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+            </form>
+            <div class="card-footer text-center">
+                <div class="dropdown-divider"></div>
+                <p class="mb-0">Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

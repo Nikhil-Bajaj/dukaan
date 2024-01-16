@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand mb-0 h1" href="{{ url_for('index') }}">View all Products</a>
+            <a class="btn btn-outline-info my-2 my-sm-0" href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+
+        {% if message %}
+            <div class="alert alert-success mt-3" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+
+        <div class="card mt-4">
+            <form class="card-body" action="{{ url_for('home') }}" method="POST" enctype="multipart/form-data">
+                <h5 class="card-title">Add New Item</h5>
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <input type="text" class="form-control" name="category" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="pro_name">Name</label>
+                    <input type="text" class="form-control" name="pro_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <input type="text" class="form-control" name="description">
+                </div>
+                <div class="form-group">
+                    <label for="price_range">Price </label>
+                    <div class="input-group">
+                        <span class="input-group-text">€</span>
+                        <input type="number" step="0.01" class="form-control" id="priceInput" name="price_range" placeholder="Enter Price Range (0-2000)" min="0" max="2000" required>
+                    </div>
+                    <small id="priceRangeHelp" class="form-text text-muted">Enter a price in the range of 0 to 2000.</small>
+                </div>
+                <div class="form-group">
+                    <label for="comments">Comments</label>
+                    <input type="text" class="form-control" name="comments">
+                </div>
+                <div class="form-group">
+                    <label for="image">Product Image</label>
+                    <input type="file" class="form-control-file" name="image" accept="image/">
+                </div>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
+
+        <div class="row mt-4">
+			<div class="col-md-12"></div>
+				<h5 class="card-title">Edit Items</h5>
+			</div>
+            {% if rows %}
+                {% for row in rows %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <img src="{{ url_for('static_dir', path='images/' + row.filename) }}" class="card-img-top img-fluid rounded" alt="Product Image" style="height: 200px; width: auto;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ row.name }}</h5>
+                                <p class="card-text">{{ row.category }}</p>
+                            </div>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">{{ row.description }}</li>
+                                <li class="list-group-item">Price: €{{ row.price_range }}</li>
+                                <li class="list-group-item">{{ row.comments }}</li>
+                            </ul>
+                            <div class="card-body">
+                                <a href="{{ url_for('edit', pro_id=row.pro_id) }}" class="card-link">Edit Product</a>
+                            </div>
+                        </div>
+                    </div>
+					{% if loop.index % 3 == 0 %}
+						</div><div class="row mt-4">
+					{% endif %}
+                {% endfor %}
+            {% else %}
+                <p class="text-center mt-4">No products available</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
